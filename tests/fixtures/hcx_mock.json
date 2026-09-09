@@ -1,0 +1,354 @@
+{
+  "report_segment": {
+    "is_new_report": true,
+    "confidence": 0.9,
+    "reasoning": "Mock: 페이지 헤더가 새로운 성적서번호를 포함합니다.",
+    "extracted_meta_if_new": {
+      "tentative_report_no": "RPT-MOCK-001",
+      "ndt_method": "RT",
+      "inspection_date": "2026-05-01",
+      "joint_no_sample": "J-001"
+    },
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "drawing_classify": {
+    "drawing_type": "DC",
+    "drawing_no": "DRWG-MOCK-001",
+    "revision": "rev1",
+    "confidence": 0.95,
+    "reasoning": "Mock: 파일명 접미사 DC 와 일치합니다.",
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "ocr_normalize": {
+    "report_no": "RPT-MOCK-001",
+    "ndt_method": "RT",
+    "inspection_date": "2026-05-01",
+    "inspector": "MOCK INSPECTOR",
+    "approver": "MOCK APPROVER",
+    "procedure_no": "PROC-MOCK-RT-001",
+    "system_or_line_no": "LINE-MOCK-001",
+    "drawing_no": "DRWG-MOCK-001",
+    "joints": [
+      {
+        "joint_no": "J-001",
+        "welder_id": "W-MOCK-1",
+        "wps_no": "WPS-001",
+        "weld_date": "2026-04-28",
+        "result": "ACC",
+        "defects": [],
+        "acceptance_criteria": "ASME Sec.VIII Div.1 UW-51"
+      }
+    ],
+    "equipment": {
+      "device": null,
+      "sensitivity": null,
+      "film_type": "AGFA D7",
+      "probe": null
+    },
+    "extraction_confidence": 0.9,
+    "ocr_concerns": [],
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "drawing_dc": {
+    "drawing_no": "DRWG-MOCK-001",
+    "drawing_type": "DC",
+    "revision": "rev1",
+    "material": {
+      "p_numbers": [
+        "P-1"
+      ],
+      "class_or_rating": "Class 1",
+      "thickness_range_mm": {
+        "min": 6,
+        "max": 25
+      }
+    },
+    "service_conditions": {
+      "design_pressure_bar": 158,
+      "design_temperature_c": 350,
+      "fluid": "Primary water",
+      "test_pressure_bar": 217
+    },
+    "applicable_codes": [
+      {
+        "code": "ASME Sec.III Div.1 NB",
+        "section": null,
+        "page_in_drawing": 1
+      }
+    ],
+    "joints": [
+      {
+        "joint_no": "J-001",
+        "category": "Class 1 girth",
+        "page_in_drawing": 2
+      }
+    ],
+    "inspection_matrix": [
+      {
+        "joint_group": "Class 1 girth welds",
+        "ndt_methods": [
+          "RT",
+          "UT"
+        ],
+        "sampling_rate_pct": 100,
+        "page_in_drawing": 2
+      }
+    ],
+    "referenced_drawings": [
+      "DRWG-MOCK-001-SD",
+      "DRWG-MOCK-001-BG"
+    ],
+    "extraction_confidence": 0.9,
+    "citations": [
+      {
+        "field": "inspection_matrix[0].sampling_rate_pct",
+        "page": 2,
+        "quote": "All Class 1 girth welds shall undergo 100% RT and UT."
+      }
+    ],
+    "needs_review": false,
+    "review_reasons": [],
+    "notes": null
+  },
+  "drawing_sd": {
+    "drawing_no": "DRWG-MOCK-001",
+    "drawing_type": "SD",
+    "revision": "rev1",
+    "joints": [
+      {
+        "joint_no": "J-001",
+        "weld_type": "BW",
+        "p_no_a": "P-1",
+        "p_no_b": "P-1",
+        "thickness_mm": 25,
+        "wps_no": "WPS-001",
+        "required_ndt": [
+          {
+            "method": "RT",
+            "sampling_rate_pct": 100,
+            "acceptance_criteria": "ASME Sec.VIII Div.1 UW-51",
+            "page_in_drawing": 3
+          },
+          {
+            "method": "UT",
+            "sampling_rate_pct": 100,
+            "acceptance_criteria": "ASME Sec.V Article 5",
+            "page_in_drawing": 3
+          }
+        ],
+        "pwht_required": true,
+        "page_in_drawing": 3
+      }
+    ],
+    "general_notes": [],
+    "extraction_confidence": 0.92,
+    "citations": [],
+    "needs_review": false,
+    "review_reasons": [],
+    "notes": null
+  },
+  "drawing_bg": {
+    "drawing_no": "DRWG-MOCK-001",
+    "drawing_type": "BG",
+    "revision": "rev1",
+    "lines": [
+      {
+        "line_no": "L-001",
+        "nps": "8\"",
+        "schedule": "SCH 80",
+        "astm_spec": "ASTM A106 Gr.B",
+        "safety_class": "Class 1",
+        "seismic_category": "I",
+        "insulation": false,
+        "page_in_drawing": 1
+      }
+    ],
+    "joint_locations": [
+      {
+        "joint_no": "J-001",
+        "line_no": "L-001",
+        "sheet": "1/2",
+        "coordinates": "A3",
+        "page_in_drawing": 1
+      }
+    ],
+    "extraction_confidence": 0.9,
+    "citations": [],
+    "needs_review": false,
+    "review_reasons": [],
+    "notes": null
+  },
+  "drawing_combine": {
+    "drawing_no": "DRWG-MOCK-001",
+    "set_revision": "rev1",
+    "joints": [
+      {
+        "joint_no": "J-001",
+        "weld_type": "BW",
+        "p_no_a": "P-1",
+        "p_no_b": "P-1",
+        "thickness_mm": 25,
+        "wps_no": "WPS-001",
+        "line_no": "L-001",
+        "safety_class": "Class 1",
+        "design_pressure_bar": 158,
+        "design_temperature_c": 350,
+        "fluid": "Primary water",
+        "required_ndt": [
+          {
+            "method": "RT",
+            "sampling_rate_pct": 100,
+            "acceptance_criteria": "ASME Sec.VIII Div.1 UW-51",
+            "source": "SD",
+            "citation": {
+              "doc": "DRWG-MOCK-001-SD",
+              "page": 3,
+              "quote": "RT 100% required."
+            }
+          },
+          {
+            "method": "UT",
+            "sampling_rate_pct": 100,
+            "acceptance_criteria": "ASME Sec.V Article 5",
+            "source": "SD",
+            "citation": {
+              "doc": "DRWG-MOCK-001-SD",
+              "page": 3,
+              "quote": "UT 100% required."
+            }
+          }
+        ],
+        "applicable_codes": [
+          {
+            "code": "ASME Sec.III Div.1 NB",
+            "source": "DC"
+          }
+        ]
+      }
+    ],
+    "conflicts": [],
+    "missing_joints": [],
+    "extraction_confidence": 0.92,
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "scwep_extract": {
+    "document_no": "NP.D.P002.1.0UMA&&LAH&&&.015.KE.0001.E",
+    "revision": "C01",
+    "applicable_scope": {
+      "disciplines": [],
+      "kks": {
+        "raw": "0UMA&&LAH&&&",
+        "building": "0UMA",
+        "systems": [
+          "LAH"
+        ]
+      },
+      "systems": [
+        "LAH"
+      ],
+      "materials": [],
+      "description": "Turbine Building (10UMA), Auxiliary Feedwater System (LAH) pipelines installation"
+    },
+    "conditional_ndt_requirements": [
+      {
+        "rule_id": "7.3.4.7-VT",
+        "trigger": "places from which temporary process devices have been removed",
+        "ndt_method": "VT",
+        "page": 25,
+        "quote": "the places from which temporary process devices have been removed shall be subjected to 100 % visual inspection and measurements and liquid penetrant testing (LPT)",
+        "confidence": 0.9
+      },
+      {
+        "rule_id": "7.3.4.7-PT",
+        "trigger": "places from which temporary process devices have been removed",
+        "ndt_method": "PT",
+        "page": 25,
+        "quote": "the places from which temporary process devices have been removed shall be subjected to 100 % visual inspection and measurements and liquid penetrant testing (LPT)",
+        "confidence": 0.9
+      }
+    ],
+    "general_rules": [
+      {
+        "rule_id": "2.8",
+        "ndt_method": "ALL",
+        "topic": "sampling",
+        "page": 10,
+        "summary": "용접부 NDT 방법·범위는 용접부 등급에 따라 DD 문서(도면)의 지시를 따른다.",
+        "quote": "The methods and scope of non-destructive testing ... shall be adopted on the basis of the assigned category of the welded joint or pipeline in accordance with the instructions provided in initial DD documentation.",
+        "confidence": 0.9
+      }
+    ],
+    "default_sampling_rates": [
+      {
+        "applies_to": "Class 2 girth welds",
+        "ndt_method": "RT",
+        "rate_pct": 10,
+        "page": 5,
+        "quote": "Class 2 girth welds shall be RT 10% minimum."
+      }
+    ],
+    "acceptance_criteria_refs": [],
+    "re_examination_rules": [],
+    "extraction_confidence": 0.85,
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "code_lookup": {
+    "answer": "근거 없음 — 추가 코드 섹션 인덱싱 필요",
+    "found_in_context": false,
+    "citations": [],
+    "confidence": 0.0,
+    "caveats": null,
+    "needs_review": true,
+    "review_reasons": [
+      "Mock 응답: context_snippets 에 답이 없음"
+    ]
+  },
+  "matching_judge": {
+    "matched_report_no": "RPT-MOCK-001",
+    "match_confidence": 0.9,
+    "reasoning": "Mock: Joint No., NDT 방법, 검사일이 모두 일치합니다.",
+    "discrepancies": [],
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "compliance_explain": {
+    "verdict": "OK",
+    "summary_korean": "Mock: 청구 행이 도면 요구사항·성적서와 일치합니다.",
+    "findings_explained": [],
+    "recommended_action_korean": "추가 조치 불필요.",
+    "confidence": 0.9,
+    "needs_review": false,
+    "review_reasons": []
+  },
+  "vision_table_verify": {
+    "_mock_text": true,
+    "_note": "HCX-005 vision 응답 — 자연어 (structured outputs 불가). mock 으로 needs_review 반환",
+    "_mock_response_format": "검증 결과: needs_review\n근거: Mock fixture\n신뢰도: 0.0"
+  },
+  "ocr_correct": {
+    "corrected_value": null,
+    "decision": "needs_review",
+    "evidence": "Mock fixture — 실제 LLM 호출 시 후보 분석 후 결정",
+    "candidate_source": null,
+    "confidence": 0.0
+  },
+  "contract_extract": {
+    "contract_no": "CONTRACT-MOCK-001",
+    "parties": [
+      "발주처",
+      "시공사에너빌리티"
+    ],
+    "effective_date": "2025-01-01",
+    "clauses": [],
+    "extraction_confidence": 0.0,
+    "needs_review": true,
+    "review_reasons": [
+      "Mock: 실제 계약서 미입력"
+    ]
+  }
+}

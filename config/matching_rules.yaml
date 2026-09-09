@@ -1,0 +1,95 @@
+# 청구 ↔ 성적서 ↔ 도면 3자 매칭 규칙
+#
+# 매칭은 3단계: deterministic(정확) → fuzzy(rapidfuzz) → llm_judge(HCX-007)
+
+# 1단계: 결정 키 매칭 — 모두 일치해야 확정 매치
+# the plant CP-P1 의 경우 청구 엑셀의 'Report Number' 가 CRST PDF 의 'No. XX-XXX YY' 와
+# 공백 정규화 후 정확 매칭됨 → report_no 가 최우선.
+deterministic_keys:
+  - name: "report_no"
+    fields: ["report_no"]                  # 1순위 — CRST 성적서번호 직접 매칭
+  - name: "joint+method"
+    fields: ["joint_no", "ndt_method"]     # 2순위 — Confirmation No (FW12 등) + 방법
+  - name: "joint+method+welder"
+    fields: ["joint_no", "ndt_method", "welder_id"]   # 3순위 — 용접사까지 보강
+
+# 2단계: fuzzy 매칭 — rapidfuzz token_set_ratio
+fuzzy:
+  enabled: true
+  # 각 필드의 fuzzy 임계값 (0~100), 모든 활성 필드가 임계값 이상이어야 후보로 채택
+  field_thresholds:
+    joint_no: 85          # Joint No. 는 표기 차이 자주 발생 (대소문자, 접두/접미, 구분자)
+    ndt_method: 100       # NDT 방법은 정규화 후 정확 일치만 인정
+    welder_id: 90
+  # 후보 매치가 여러 개이면 점수 가장 높은 것 선택. tied 면 LLM 단계로 escalate.
+  max_candidates_per_billing: 5
+
+# 3단계: LLM 판정 — 모호한 후보군을 HCX-007 에 보내 1개 확정
+llm_judge:
+  enabled: true
+  # fuzzy 후보가 1개 이상이고 점수 격차가 작을 때만 호출
+  invoke_if_score_gap_below: 10
+  # 청구 1행당 LLM 호출 한도 (성능 보호용; 토큰 비용은 무료)
+  max_calls_per_row: 1
+
+# 적합성(Compliance) 판정 룰
+compliance:
+  # 도면 요구 NDT 가 청구·성적서에 모두 있는가
+  check_required_ndt_present: true
+  # 청구된 NDT 가 도면 요구사항에 포함되는가 (과다 청구 감지)
+  check_billed_ndt_in_requirements: true
+  # 샘플링률(요구치) 충족 여부 — drawing.requirements 의 sampling_rate 와 비교
+  check_sampling_rate: true
+  # 과다청구 확정 조건 (2026-09-05, SCWEP 근거 게이트). 전부 false 로 두면 예전 동작(도면에 없으면 즉시 확정).
+  overbilling_claim:
+    require_submitted_basis: true      # 제출된 SCWEP 가 이 방법에 침묵해야만 확정. 없으면 "근거 미제출"
+    require_conditional_schema: true   # 조건부 요구를 인지하는 형식(v2)으로 적재된 SCWEP 만 침묵의 증거로 인정
+    never_claim_on_empty_drawing_requirement: true   # 도면 요구가 공집합(추출 실패 가능)이면 확정 안 함
+    never_claim_on_flagged_drawing_set: true         # 도면 세트가 재확인 대상이면 확정 안 함
+  # 도면이 모호·누락 시 권위 계층 따라 상위 문서 참조
+  authority_hierarchy:
+    - drawing       # 1순위
+    - scwep         # 2순위
+    - code          # 3순위 (ASME, RCC-M 등)
+    - contract      # 4순위
+
+# 위험도 점수 산정 (0~100, 높을수록 위험)
+#
+# 사용자 정책 (2026-05-21 확인 + 2026-07-06 정제):
+#   발주처 검토 핵심 = 수량 검증. **위험은 과다청구(돈 나감) 단방향.**
+#   미청구·누락 = 비용절감 → 기성검토상 문제 아님 (정보성만).
+#   검사 자체 미수행의 품질 문제는 CRST/시공사 책임 영역 — 우리 검토 대상 아님.
+#   NDT 합격/불합격 판정도 CRST 책임 — 위험도에서 제외.
+risk_score:
+  weights:
+    # ── 수량 검증 (발주처 핵심 = 과다청구) ──
+    billed_ndt_not_in_requirements: 60 # 도면 미요구 NDT 청구 — 과다 청구. 발주처 환불 대상
+    #   ↑ 2026-09-05 부터 이 rule 은 근거 사슬이 완전할 때만 나온다 (아래 overbilling_claim).
+    #     도면에 없어도 SCWEP 근거 상태에 따라 아래 셋 중 하나로 갈린다. 셋 다 60 미만(빨강 아님),
+    #     30 이상(대시보드 기본 필터에서 안 사라짐).
+    billed_ndt_basis_not_submitted: 45 # SCWEP 미제출·범위불명·구형식 — 시공사에 제출 요청
+    billed_ndt_basis_unclear: 50       # SCWEP 에 방법 언급은 있으나 조건 불명 — 조항 원문 확인
+    billed_ndt_covered_by_scwep: 35    # SCWEP 조건부 요구가 지목 — 조건 발생 사실 1회 대조
+    required_ndt_missing: 5            # 요구 NDT 미청구 — 누락 = 비용절감 (정보성).
+                                       # 단, 향후 소급 청구 시 검증 포인트로 기록만.
+    sampling_rate_short: 40            # 샘플링률 미달 상태로 완료 청구 — 과다 방향 (수행량 < 청구 전제)
+    # ── 자동 검증 불가 (검토자 수동 확인) ──
+    drawing_requirement_missing: 35    # 도면 DB 에 해당 Joint 요구사항이 없음
+    drawing_no_is_ke_misentry: 45      # 청구 Detailed Drawing 컬럼에 KE(WEP/SCWEP) 오기 — 시공사 정정 요청
+    low_confidence_code_ref: 20        # 추적 불가·저신뢰 인용 — 근거로 쓰지 말고 원문 확인
+    rule_engine_violation: 25          # Rule Engine deterministic 검증 실패 (enum/형식/범위) — OCR·LLM 오인식 의심
+    ocr_auto_corrected: 5              # HCX-007 context correction 으로 자동 보정됨 — 정보성, 검토자 확인 권장
+    no_matching_report: 30             # 청구는 있는데 성적서 매칭 실패
+    pipeline_row_failed: 30            # 자동 처리 실패 — 판정 없음. 사람이 봐야 하므로 기본 필터 안에
+    # ── 부수 (CRST 책임 영역, 정보성) ──
+    welder_mismatch: 5                 # 용접사 불일치 (CRST 가 정리)
+    date_anomaly: 3                    # 검사일이 청구회차 기간 밖
+    # result_mismatch 는 weight 0 — CRST 가 판정 책임이므로 발주처 검토 범위 외
+    result_mismatch: 0
+  # LLM 자연어 설명·근거 인용은 위험도와 무관하게 모든 행에 생성 (토큰 무료)
+  always_generate_explanation: true
+
+# 검토 우선순위 — 대시보드 정렬 기본값
+review_priority:
+  default_sort: "risk_score_desc"
+  highlight_threshold: 60             # 이 점수 이상 빨강 표시

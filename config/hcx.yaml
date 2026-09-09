@@ -1,0 +1,258 @@
+# HyperCLOVA X (HCX) API 설정 — 사내 발급 실 스펙 반영 (2026-04-09 AI추진부 발급)
+#
+# 출처: "CLOVA Studio for the client API 가이드" (NEURO_the client 251016) + API 발급 메일.
+# 토큰 비용 무료 (사내 이식) → 단, 일일 호출 한도 있음 (아래 call_budget 참조).
+#
+# === 발급 정보 (실 스펙, 추측 아님) ===
+#   API URL  : https://llm.example.internal:8443
+#   호출 방식: Chat Completions v3 (사내 팀 명시) — POST /v3/chat-completions/{modelName}
+#   인증     : API Key (RFC6750 Bearer). Authorization: Bearer {API_Key}. 유효시간 없음.
+#   발급 모델: HCX-005, HCX-007  (⚠ HCX-DASH-002 미발급)
+#   일일 한도: 신청서에는 10,000회. 실제 강제 한도는 없음(2026-09-06 사용자 확정) — call_budget 참조
+#   사용기한 : ~2028.12.31
+#
+# === 모델 capability (공식 가이드 p3-4 확정) ===
+#   HCX-005 = 텍스트+이미지, ctx 128k, 응답스트림 O, 추론 X, function calling O, structured outputs X
+#   HCX-007 = 텍스트, ctx 128k, 응답스트림 O, 추론(thinking) O, function calling O, structured outputs O
+#   ⚠ HCX-005/007 은 legacy "Chat Completions" 미지원 → Chat Completions v3 만 사용
+#   ⚠ 한 호출당 상호 배타: 추론(thinking) ⊗ structured outputs ⊗ function calling
+#   ⚠ HCX-007 은 추론을 끄더라도 maxTokens 불가 — 항상 maxCompletionTokens
+#     (thinking 여부가 아니라 **모델** 기준. 2026-09-02 사내 실측으로 확인)
+
+api:
+  # 실 발급 endpoint (포트 8443 포함). 사내 PC 에서 그대로 사용.
+  base_url: "https://llm.example.internal:8443"
+
+  # 호출 형식: "v3" (Chat Completions v3 네이티브) | "openai" (오픈AI 호환)
+  # 사내 팀이 v3 호출 명시 → v3 기본.
+  api_style: "v3"
+
+  # 프록시 환경변수(HTTPS_PROXY 등)를 따를지. true 로 두면 무시하고 직접 나간다.
+  # 사내 PC 에 프록시가 잡혀 있는데 대상이 사내 주소라 프록시를 거치면 막히는 경우 사용.
+  # 환경변수 NDT_HCX_IGNORE_PROXY=1 로도 같은 효과.
+  ignore_proxy: false
+
+  # 인증: API Key (Bearer). 환경변수 NDT_HCX_TOKEN 에서 읽음 (절대 파일에 키 안 적음).
+  auth_type: "bearer"
+  token_env: "NDT_HCX_TOKEN"
+  extra_headers: {}
+
+  # X-Request-Id 자동 생성 (요청 추적용 — 사내 IT 문의 시 활용)
+  send_request_id: true
+
+  # 요청 타임아웃 (초). 추론(thinking) 또는 긴 응답은 시간 소요 → 넉넉히.
+  timeout_seconds: 180
+
+  # 재시도 정책. 재시도 대상: 5xx(50000/50400/64xxx), 408 timeout, 424 처리실패, 429 rate limit
+  #            fail-fast: 4xx 클라이언트 오류 (40003 context length, 40100~ 인증, 40009 미지원 등)
+  retry:
+    max_attempts: 5
+    initial_backoff_seconds: 2
+    max_backoff_seconds: 60       # 429 (Too many requests) 대비 넉넉히
+
+# 모델 라우팅 — 발급 모델 HCX-005/007 만 사용 (DASH-002 미발급)
+models:
+  default: "HCX-007"            # 텍스트 추출/판정/설명 (추론·structured 가능)
+  vision: "HCX-005"             # 이미지 입력 필요한 단계
+  light: "HCX-007"              # DASH 미발급 → 경량 단계도 HCX-007 (가능하면 deterministic 우선)
+  temperature: 0.0             # 결정성 우선 (v3: 0.00~1.00 허용)
+  top_p: 0.8                   # v3 기본값
+  top_k: 0                     # v3 기본값
+  repetition_penalty: 1.1      # v3 기본값
+  # 일반 호출 최대 생성 토큰 (기본 100 은 너무 작아 명시).
+  max_tokens: 4096
+  # 아래 모델은 추론을 끄더라도 maxTokens 를 거부하고 maxCompletionTokens 만 받는다.
+  # (2026-09-02 사내 실측: HCX-007 + maxTokens -> 40001, maxCompletionTokens -> 20000)
+  # 새 추론 모델이 발급되면 여기에 이름만 추가하면 된다 — 코드 수정 불요.
+  reasoning_models: ["HCX-007"]
+  # 출력이 상한에서 잘렸음을 뜻하는 종료값. OpenAI/vLLM(Studio XP) 표준은 "length".
+  # HCX v3 는 result.finishReason 이며 잘림 값도 "length" (2026-09-07 사내 hcx-probe 실측, A-1 종결).
+  # 이 목록에 없는 값은 로그에만 남고 경고는 안 뜬다 — 추측한 문자열을 넣지 말 것.
+  truncation_values: ["length"]
+  # 추론(HCX-007 thinking) 사용 시 maxCompletionTokens + thinking.effort.
+  # effort 별 maxCompletionTokens 기본: none=512, low=5120, medium=10240, high=20480
+  thinking_effort: "low"       # 비용/시간 절약 — 필요 stage 만 medium/high 로 override
+  # 2026-09-07 사내 ② 세트 1: drawing_combine(medium) 이 5120 에서 JSON 중간에 끊겨 파싱 실패.
+  # 추론 토큰이 이 상한 안에서 소모되므로 medium/high stage 도 감당하게 high 기본값으로. (HCX-007 최대 출력 32,768)
+  max_completion_tokens: 20480
+
+# 단계별 모델 매핑 — DASH-002 미발급 반영 (이전 DASH stage → HCX-007)
+#
+#   ⚠ 호출량 절감 원칙: 아래 stage 중 report_segment / ocr_normalize / compliance_explain 은
+#     deterministic-first (규칙·표 추출 우선), LLM 은 의심 건만 호출 (일일 10k 한도 대응).
+#     코드에서 needs_review/저신뢰 건만 LLM 으로 보냄.
+stage_overrides:
+  # ── 분류·분할 (이전 DASH-002 → HCX-007, 단 deterministic 우선) ──
+  report_segment: "HCX-007"           # 헤더 패턴 분할 우선, 모호 경계만 LLM
+  drawing_classify: "HCX-007"         # 파일명 규칙 우선, 모호한 것만 LLM
+
+  # ── Vision (HCX-005) ──
+  vision_table_verify: "HCX-005"      # Rule Engine 위반 셀 시각 검증 (NDT_VISION_VERIFY=1)
+  table_transcribe: "HCX-005"         # 표 페이지 이미지 → Markdown 표 전사 (규격서·도면 사양표·성적서 표)
+
+  # ── 텍스트 추론·구조화 (HCX-007) ──
+  drawing_dc: "HCX-007"
+  drawing_sd: "HCX-007"
+  drawing_bg: "HCX-007"
+  drawing_combine: "HCX-007"          # 추론 유리
+  ocr_normalize: "HCX-007"            # Adobe OCR/표 추출 우선, 저신뢰 페이지만 LLM
+  ocr_correct: "HCX-007"              # Rule Engine 위반만
+  scwep_extract: "HCX-007"
+  code_lookup: "HCX-007"              # 추론 유리
+  matching_judge: "HCX-007"           # deterministic+fuzzy 후 모호한 것만
+  compliance_explain: "HCX-007"       # needs_review/고위험 행만 (전수 X)
+  contract_extract: "HCX-007"
+
+# stage 별 추론(thinking) 사용 여부 — 복잡 추론 필요 stage 만 (비용·토큰 절약)
+# 미지정 stage 는 추론 안 함 (effort=none, 빠르고 토큰 적음)
+thinking_stages:
+  drawing_combine: "medium"           # DC+SD+BG 상충 해소
+  code_lookup: "medium"               # 권위 계층 인용 추론
+  compliance_explain: "low"           # 적합성 판정 근거
+
+# ═══════════════════════════════════════════════════════════════════════════
+# (선택) 다중 모델 서버 라우팅 — HCX + 사내 오픈모델(Gemma 4 31B / gpt-oss-120b) A/B 비교
+# ───────────────────────────────────────────────────────────────────────────
+#  왜: 같은 판정을 서로 다른 모델에 보내 정확도·일치율을 비교한다(scripts/ab_model_test.py).
+#  기본은 비활성(아래 전부 주석) → HCX 단일 endpoint 로 동작(현행 그대로, 안전).
+#  사내에서 A/B 하려면 아래 providers 그룹의 주석(#)만 벗기고 base_url 을 실제 값으로 채운다.
+#
+#  개방형 모델은 별도 endpoint "Studio XP" 로 발급됨 (AI솔루션부, 발급 메일 2026-08-31):
+#    EndPoint : https://studio.example.internal:8443   (gemma4-31b, gpt-oss-120b 공용)
+#    방화벽   : <internal-ip>:8443 아웃바운드 개통
+#    hosts    : 내부 DNS 없음 → C:\Windows\System32\drivers\etc\hosts 에 아래 한 줄 추가(관리자 권한)
+#                 <studio-host-ip> studio.example.internal
+#    API Key  : "lsak-…" 로 시작. ⚠ 파일에 적지 말 것 → 환경변수 NDT_STUDIO_TOKEN 로만.
+#    호출형식 : 첨부 "StudioXP 사용 가이드.pdf" 로 최종 확인(개방형 모델이라 OpenAI 호환 추정 → api_style: openai)
+#
+#  ── 사용법 (코드 몰라도 됨) ──
+#   1) 위 방화벽·hosts 등록 → 환경변수 NDT_STUDIO_TOKEN 에 Studio XP API Key 등록
+#   2) 아래 providers 블록의 주석(#)만 벗긴다 (base_url 은 이미 실주소로 채워져 있음)
+#   3) 실행:
+#        python scripts/ab_model_test.py --providers hcx,gemma,gptoss \
+#            --cases scripts/ab_cases.sample.json --out data/outputs/ab_result.json
+#   4) 결과 해석: accuracy(정답 라벨 있을 때)·_pairwise_agreement_mean(모델 간 일치율)로 판단
+#      (사외에서 하네스 로직만 점검: python scripts/ab_model_test.py --self-test)
+#
+#  ⚠ stage_providers 를 채우면 그 stage 의 "실제 운영 호출"도 해당 provider 로 간다.
+#     단순 비교만 원하면 stage_providers 는 비워두고 --providers 로만 돌린다
+#     (하네스가 호출 시점에만 임시로 provider 를 지정하므로 운영 라우팅은 안 바뀜).
+#
+providers:
+  # ── HCX 본 endpoint (v3 네이티브) ──
+  hcx007:
+    base_url: "https://llm.example.internal:8443"
+    api_style: "v3"
+    model: "HCX-007"
+    token_env: "NDT_HCX_TOKEN"
+  hcx005:
+    base_url: "https://llm.example.internal:8443"
+    api_style: "v3"
+    model: "HCX-005"
+    token_env: "NDT_HCX_TOKEN"
+
+  # ── Studio XP (OpenAI 호환, /v1/chat/completions) ──
+  # 2026-09-07 사내 hcx-check 4단계(GET /v1/models) 실측 서빙 목록:
+  #   bge-m3, gemma4-31b, gpt-oss-120b, hcx-v2-004, qwen36-27b   (hcx-seed-32b 는 없음 → provider 제거)
+  gemma:
+    base_url: "https://studio.example.internal:8443"
+    api_style: "openai"
+    chat_path: "/v1/chat/completions"
+    model: "gemma4-31b"
+    token_env: "NDT_STUDIO_TOKEN"
+  gptoss:
+    base_url: "https://studio.example.internal:8443"
+    api_style: "openai"
+    chat_path: "/v1/chat/completions"
+    model: "gpt-oss-120b"
+    token_env: "NDT_STUDIO_TOKEN"
+  hcxv2:
+    base_url: "https://studio.example.internal:8443"
+    api_style: "openai"
+    chat_path: "/v1/chat/completions"
+    model: "hcx-v2-004"
+    token_env: "NDT_STUDIO_TOKEN"
+  qwen:
+    base_url: "https://studio.example.internal:8443"
+    api_style: "openai"
+    chat_path: "/v1/chat/completions"
+    model: "qwen36-27b"
+    token_env: "NDT_STUDIO_TOKEN"
+
+# ⚠ stage_providers 는 비워 둡니다.
+#    채우면 그 stage 의 "실제 운영 호출"까지 해당 provider 로 갑니다.
+#    벤치마크는 run_model_ab.bat 이 호출 시점에만 임시 지정하므로 운영에 영향 없습니다.
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 규격 검색 — 임베딩(bge-m3) + BM25 하이브리드  (2026-09-03)
+# ───────────────────────────────────────────────────────────────────────────
+#  왜: 규격 원문은 러시아어·영어(GOST, SP 70), 질의는 한국어. 어휘 매칭으로는
+#      원리적으로 못 찾는다. 예전 검색기는 한국어 질의에 토큰을 0개 뽑아
+#      code_lookup 이 항상 빈 context 로 판정하고 있었다.
+#  bge-m3 는 다국어 임베딩 모델로 Studio XP /v1/models 에 올라와 있다.
+#  임베딩이 안 되면(키 없음·서버 장애) BM25 만으로 자동 후퇴한다.
+embedding:
+  enabled: true
+  base_url: "https://studio.example.internal:8443"
+  path: "/v1/embeddings"
+  model: "bge-m3"
+  token_env: "NDT_STUDIO_TOKEN"
+  batch_size: 32
+  timeout_seconds: 60
+  # 기대 차원. bge-m3 = 1024. 다른 폭이 오면 서버 쪽 모델이 바뀐 것이므로 그 배치는 버리고
+  # BM25 로 후퇴한다 (경고 로그). hcx-check 4단계가 실제 차원을 출력하니 다르면 여기를 맞출 것.
+  dim: 1024
+
+retrieval:
+  top_k: 5                 # 프롬프트에 넣는 최종 청크 수
+  bm25_candidates: 30      # 두 검색기가 각각 뽑는 후보 수 (RRF 로 합침)
+  embed_candidates: 30
+  hybrid: true             # false 면 BM25 만
+  rrf_k: 60
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 호출량 관리 — 2026-09-03 사용자 결정: **제한 없이 진행. 인프라팀 연락 오면 그때 하향.**
+# ───────────────────────────────────────────────────────────────────────────
+#  enforce_hard_cap: false 면 아무것도 막지 않고 경고만 찍는다 (현재).
+#  인프라팀이 한도를 통보하면 아래 두 줄만 바꾸면 된다 (코드 수정 불요):
+#     enforce_hard_cap: true
+#     per_day_hard: <통보받은 일일 한도>
+#  일일 누적은 data/hcx_daily_count.json 에 기록되어 본사 통보용 실적으로도 쓴다.
+call_budget:
+  enforce_hard_cap: false
+  # 세 경고선 모두 8000. 실제 호출 한도는 없다(사용자 확정 2026-09-06). 8000 은 한도가 아니라
+  # "이쯤 쓰면 한 번 확인" 하는 기준점이다. 경고가 떠도 중단하지 말고 사용량만 확인하면 된다.
+  # (예전 20000 은 일일 한도보다 높아 경고가 절대 울리지 않았다. 2026-09-05 리뷰)
+  per_run_warn: 8000
+  per_hour_warn: 8000
+  per_day_warn: 8000
+  per_day_hard: null
+  print_summary_every: 500
+  daily_count_file: "data/hcx_daily_count.json"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 표 페이지 전사 — 분류 → VLM(HCX-005) 전사 → OCR 숫자 대조 → 신뢰도  (2026-09-03)
+# ───────────────────────────────────────────────────────────────────────────
+#  왜: 글자 인식은 충분한데 표가 조용히 깨진다 (PNAEG p.46: 9열 중 8열 누락).
+#  표처럼 생긴 페이지만 이미지 모델에 보내 셀 단위로 옮기고, 그 숫자를 OCR 이 읽은
+#  숫자 집합과 대조한다. 대조에 없는 숫자 = 지어낸 것 → needs_review.
+#  호출량: 표 페이지에만 1회. 2026-09-03 사용자 결정으로 제한 없음.
+table_pipeline:
+  enabled: true
+  min_table_score: 0.4          # 실측: 본문 0.00 · 표지 0.11 · 도면 0.43 · 표 0.48~0.82
+                                # 2026-09-03 사내 첫 실행 뒤 0.5→0.4. 진짜 표(GOST 23118 p27)가
+                                # 0.48 로 임계에 걸렸다. 후보를 넉넉히 보내고 "표 아님" 판정은
+                                # VLM 에 맡긴다 (호출량 제한 없음 결정). 도면은 0.43 이라 일부
+                                # 들어오지만 VLM 이 실제로 다 걸러냈다 (8732-78: 4후보 → 0전사).
+  min_digit_agreement: 0.9      # 전사 숫자 중 OCR 에도 있는 비율. 미만이면 needs_review
+  min_multiword_lines: 6
+  score_dpi: 150
+  lang: "eng"
+  keep_ocr_text: true           # 전사 뒤에 OCR 평문을 덧붙여 검색 재현율 확보
+  ocr_tail_chars: 1500
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SCWEP 적재 — 전문(159~236쪽) 대신 NDT 키워드 페이지만 창 단위로 (2026-09-05)
+# ───────────────────────────────────────────────────────────────────────────
+scwep:
+  window_chars: 60000     # SCWEP 한 번에 보내는 글자 수. 사내 40003 이 나면 40000 으로 낮춘다.

@@ -1,0 +1,25 @@
+# 실 프로젝트 문서는 절대 들어오지 않는다 — 이 저장소는 공개용이다
+samples/
+data/
+!data/정답표/
+*.pdf
+*.xlsx
+*.zip
+
+# 런타임 산출물
+data/logs/
+data/outputs/
+data/ocr_cache/
+data/llm_cache/
+data/index/
+data/*.sqlite*
+
+# 파이썬
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+*.egg-info/
+
+.DS_Store

@@ -1,0 +1,18 @@
+# NDT Assistant - optional extras (offline, from installer/wheels)
+#
+# Not required to run the program. Installed by install_extras.bat.
+# ASCII only - Windows pip reads this file with the console code page.
+#
+#   matplotlib  : charts and plots
+#   python-docx : create Word documents
+#   python-pptx : create PowerPoint files
+#   xlsxwriter  : Excel with formatting
+#   beautifulsoup4 + lxml : parse and edit the HTML reports
+#   tqdm        : progress bars
+matplotlib
+python-docx
+python-pptx
+XlsxWriter
+beautifulsoup4
+lxml
+tqdm

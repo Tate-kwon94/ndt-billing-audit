@@ -1,0 +1,132 @@
+# 청구 엑셀 컬럼 매핑
+#
+# 시공사이 발행하는 청구 엑셀 양식이 고정되어 있지 않으므로, 분야(CP-M1/CP-P1/...)별로
+# 컬럼 후보를 여러 개 나열해 두고, parser 가 헤더 매칭으로 자동 인식합니다.
+# 새 양식이 입수되면 candidates 에 컬럼명을 추가하기만 하면 됩니다.
+#
+# - field        : 표준 스키마 필드명 (billing_items 테이블 컬럼과 일치)
+# - candidates   : 실제 엑셀에서 발견될 수 있는 헤더 문자열 (한/영 모두 가능)
+# - required     : True 면 누락 시 오류, False 면 None 으로 채움
+
+disciplines:
+  CP-M1:
+    description: "기계 (Mechanical)"
+    sheet_name_patterns: ["CP-M1", "기계", "Mechanical"]
+    header_row_search_max: 10           # 헤더가 1~10행 사이에 있을 수 있음
+    columns:
+      - field: billing_no
+        candidates: ["청구번호", "BillingNo", "Billing No.", "기성번호"]
+        required: true
+      - field: joint_no
+        candidates: ["Joint No.", "JointNo", "용접부번호", "Weld No.", "WeldNo"]
+        required: true
+      - field: welder_id
+        candidates: ["Welder ID", "WelderID", "용접사", "용접사ID", "용접공"]
+        required: true
+      - field: ndt_method
+        candidates: ["NDT", "NDT Method", "검사방법", "비파괴검사방법"]
+        required: true
+      - field: drawing_no
+        candidates: ["Drawing No.", "DrawingNo", "도면번호", "Dwg No."]
+        required: false
+      - field: inspection_date
+        candidates: ["Inspection Date", "검사일", "검사일자", "Date"]
+        required: false
+      - field: result
+        candidates: ["Result", "판정", "결과", "합부"]
+        required: false
+      - field: quantity
+        candidates: ["수량", "Qty", "Quantity"]
+        required: false
+      - field: unit_price
+        candidates: ["단가", "Unit Price", "UnitPrice"]
+        required: false
+      - field: amount
+        candidates: ["금액", "Amount", "청구금액"]
+        required: false
+
+  CP-P1:
+    description: "배관 (Piping) — the plant NDT Inspection Service Detail List"
+    sheet_name_patterns: ["CP-P1", "배관", "Piping"]
+    # 'CP-P1(Total)' 시트는 r2~r4 에 걸쳐 병합 헤더. 메인 헤더 r2 채택.
+    header_row_search_max: 6
+    columns:
+      - field: row_no
+        candidates: ["No"]
+        required: false
+      - field: unit
+        candidates: ["Unit", "호기"]
+        required: false
+      - field: bldg
+        candidates: ["BLDG", "건물", "Building"]
+        required: false
+      - field: billing_no
+        # 검사 신청번호 (예: NDT-00010, 고유)
+        candidates: ["Application No", "Application No.", "ApplicationNo", "신청번호"]
+        required: true
+      - field: report_no
+        # 성적서번호 (예: 77-005PT, 77-013VMC) - CRST 성적서와 결정매칭 키
+        candidates: ["Report Number", "Report No.", "ReportNo", "성적서번호"]
+        required: true
+      - field: inspection_date
+        candidates: ["Date of Testing", "Inspection Date", "Date", "검사일", "검사일자"]
+        required: false
+      - field: ndt_method
+        # VT/VMC/PT/UT/RT/MT (VMC 는 VT 로 정규화)
+        candidates: ["Type", "NDT", "NDT Method", "검사방법"]
+        required: true
+      - field: result
+        # 'A' = Accept, 'R' = Reject 등. result_normalization 으로 매핑
+        candidates: ["Result", "판정", "결과"]
+        required: false
+      - field: welder_id
+        # 공백으로 구분된 다수 용접사 가능 (예: 'DW003 DW005 DW006')
+        candidates: ["Welder ID", "WelderID", "용접사", "용접사ID"]
+        required: false
+      - field: joint_no
+        # Field Weld 번호 (예: FW12, FW29). 사용자 확인: Weld Joint No (고유)
+        # 2026-09 첨부-2 양식은 이 열이 'Item' 이다 (FW12, SW0202, (1÷65)SC2-1 …)
+        candidates: ["Confirmation No.", "Confirmation No", "ConfirmationNo", "Item", "용접부번호", "Weld No.", "Joint No."]
+        required: true
+      - field: section
+        candidates: ["Section"]
+        required: false
+      - field: dimension
+        # 'Ø×t, mm' 형식 (예: 3040x20)
+        candidates: ["Dimension", "Dimension\n(Ø×t, mm)", "치수"]
+        required: false
+      # 계량(quantity/amount)은 NDT 방법별 컬럼 그룹으로 분산되어 있어 별도 후처리에서 합산
+      # (VT[직경구간별 Q'ty], PT[m·Q'ty·Total(m)], UT[m·Q'ty·Total(m)])
+      - field: drawing_no
+        # 청구 엑셀에는 도면번호 컬럼 없음 — PDF 성적서의 'Drawing:' 필드에서 보강
+        candidates: ["Drawing No.", "도면번호", "Drawing"]
+        required: false
+
+  # Phase 2 — 계전(CP-E1), 토건(CP-A1) 추가 예정
+  CP-E1:
+    description: "계전 (Instrumentation & Electrical) — Phase 2"
+    sheet_name_patterns: ["CP-E1", "계전", "I&E"]
+    header_row_search_max: 10
+    columns: []   # TODO: 샘플 확보 후 정의
+
+  CP-A1:
+    description: "토건 (Civil & Architecture) — Phase 2"
+    sheet_name_patterns: ["CP-A1", "토건", "C&A"]
+    header_row_search_max: 10
+    columns: []   # TODO: 샘플 확보 후 정의
+
+# NDT 방법 표준화 — 다양한 표기를 정규화
+# VMC (Visual and Measuring) 는 사용자 확인: VT 로 통합 처리.
+ndt_method_normalization:
+  VT: ["VT", "VMC", "Visual", "Visual Test", "Visual and Measuring", "육안", "육안검사"]
+  RT: ["RT", "방사선", "방사선투과", "Radiographic", "Radiography"]
+  UT: ["UT", "초음파", "초음파탐상", "Ultrasonic", "Ultrasonic Test"]
+  PT: ["PT", "침투", "침투탐상", "Liquid Penetrant", "Dye Penetrant"]
+  MT: ["MT", "자분", "자분탐상", "Magnetic Particle"]
+
+# 판정 결과 표준화
+# 'A' = Accept, 'R' = Reject (the plant CP-P1 엑셀 실측)
+result_normalization:
+  ACC: ["A", "ACC", "Accept", "Accepted", "합격", "OK", "PASS"]
+  REJ: ["R", "REJ", "Reject", "Rejected", "불합격", "NG", "FAIL"]
+  PENDING: ["P", "PEND", "Pending", "보류", "재검사"]

@@ -1,0 +1,296 @@
+[
+ {
+  "name": "근거 없는 질문에 '근거 없음'을 답하는가",
+  "category": "환각저항",
+  "stage": "code_lookup",
+  "payload": {
+   "question": "RT 필름의 최소 감도(IQI) 요구치는 얼마인가?",
+   "context_snippets": [
+    {
+     "doc": "GOST 10922-2012",
+     "page": 14,
+     "text": "6.7 Visual inspection shall be performed batch-wise; the sampling shall cover not less than 3 pieces per batch."
+    },
+    {
+     "doc": "SP 70.13330.2012",
+     "page": 88,
+     "text": "Welded reinforcement assemblies shall be inspected in accordance with GOST 10922."
+    }
+   ]
+  }
+ },
+ {
+  "name": "무관한 context 로 답을 지어내지 않는가",
+  "category": "환각저항",
+  "stage": "code_lookup",
+  "payload": {
+   "question": "UT 탐촉자의 굴절각 허용 오차는?",
+   "context_snippets": [
+    {
+     "doc": "GOST 10922-2012",
+     "page": 14,
+     "text": "6.7 Visual inspection shall be performed batch-wise."
+    }
+   ]
+  }
+ },
+ {
+  "name": "VT 배치표본 조항을 찾아내는가",
+  "category": "근거인용",
+  "stage": "code_lookup",
+  "payload": {
+   "question": "철근 케이지 용접부 VT 는 전수검사인가 배치 표본검사인가?",
+   "context_snippets": [
+    {
+     "doc": "GOST 10922-2012",
+     "page": 14,
+     "text": "6.7 Visual inspection shall be performed batch-wise; not less than 3 pieces per batch."
+    },
+    {
+     "doc": "GOST 10922-2012",
+     "page": 15,
+     "text": "6.17 If the batch fails, inspection shall be extended to 100 % of the batch."
+    }
+   ]
+  }
+ },
+ {
+  "name": "SP70 이 GOST10922 를 지정한 사실을 인용하는가",
+  "category": "근거인용",
+  "stage": "code_lookup",
+  "payload": {
+   "question": "SP 70.13330 은 철근 용접부 검사 기준으로 무엇을 지정하는가?",
+   "context_snippets": [
+    {
+     "doc": "SP 70.13330.2012",
+     "page": 88,
+     "text": "Welded reinforcement assemblies shall be inspected in accordance with GOST 10922."
+    }
+   ]
+  }
+ },
+ {
+  "name": "명확한 1:1 매칭",
+  "category": "매칭판정",
+  "stage": "matching_judge",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0007",
+    "joint_no": "FW12",
+    "ndt_method": "VT",
+    "welder_id": "W-118",
+    "inspection_date": "2026-03-11",
+    "result": "ACC"
+   },
+   "candidates": [
+    {
+     "report_no": "77-005VMC",
+     "joint_no": "FW12",
+     "ndt_method": "VT",
+     "welder_id": "W-118",
+     "inspection_date": "2026-03-11",
+     "result": "ACC",
+     "fuzzy_score": 96.0
+    },
+    {
+     "report_no": "77-006VMC",
+     "joint_no": "FW13",
+     "ndt_method": "VT",
+     "welder_id": "W-120",
+     "inspection_date": "2026-03-12",
+     "result": "ACC",
+     "fuzzy_score": 71.0
+    }
+   ]
+  }
+ },
+ {
+  "name": "NDT 방법 불일치 — 매칭 없음을 택하는가",
+  "category": "매칭판정",
+  "stage": "matching_judge",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0021",
+    "joint_no": "FW44",
+    "ndt_method": "RT",
+    "welder_id": "W-205",
+    "inspection_date": "2026-04-02",
+    "result": "ACC"
+   },
+   "candidates": [
+    {
+     "report_no": "44-011VMC",
+     "joint_no": "FW44",
+     "ndt_method": "VT",
+     "welder_id": "W-205",
+     "inspection_date": "2026-04-02",
+     "result": "ACC",
+     "fuzzy_score": 88.0
+    }
+   ]
+  }
+ },
+ {
+  "name": "날짜로만 구분되는 후보 2개",
+  "category": "매칭판정",
+  "stage": "matching_judge",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0033",
+    "joint_no": "FW77",
+    "ndt_method": "RT",
+    "welder_id": "W-301",
+    "inspection_date": "2026-03-11",
+    "result": "ACC"
+   },
+   "candidates": [
+    {
+     "report_no": "RT-2026-0311",
+     "joint_no": "FW77",
+     "ndt_method": "RT",
+     "welder_id": "W-301",
+     "inspection_date": "2026-03-11",
+     "result": "ACC",
+     "fuzzy_score": 94.0
+    },
+    {
+     "report_no": "RT-2026-0415",
+     "joint_no": "FW77",
+     "ndt_method": "RT",
+     "welder_id": "W-301",
+     "inspection_date": "2026-04-15",
+     "result": "ACC",
+     "fuzzy_score": 94.0
+    }
+   ]
+  }
+ },
+ {
+  "name": "용접사 불일치 — 무리한 매칭을 하지 않는가",
+  "category": "매칭판정",
+  "stage": "matching_judge",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0050",
+    "joint_no": "FW90",
+    "ndt_method": "VT",
+    "welder_id": "W-401",
+    "inspection_date": "2026-05-01",
+    "result": "ACC"
+   },
+   "candidates": [
+    {
+     "report_no": "90-002VMC",
+     "joint_no": "FW90",
+     "ndt_method": "VT",
+     "welder_id": "W-999",
+     "inspection_date": "2026-05-01",
+     "result": "ACC",
+     "fuzzy_score": 83.0
+    }
+   ]
+  }
+ },
+ {
+  "name": "요구 NDT 누락 — 부적합 판정",
+  "category": "적합성판정",
+  "stage": "compliance_explain",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0101",
+    "joint_no": "FW11",
+    "ndt_method": "VT",
+    "result": "ACC"
+   },
+   "matched_report": null,
+   "drawing_requirements": {
+    "joint_no": "FW11",
+    "required_ndt": [
+     "RT",
+     "VT"
+    ],
+    "source": "DRWG-9.1UGG-SD",
+    "page": 12
+   },
+   "scwep_rules_relevant": [],
+   "code_lookup_results": [],
+   "contract_clauses_relevant": [],
+   "compliance_findings": [
+    {
+     "rule": "required_ndt_missing",
+     "details": "도면 요구 RT 가 청구·성적서 모두에 없음"
+    },
+    {
+     "rule": "no_matching_report",
+     "details": "매칭된 성적서 없음"
+    }
+   ],
+   "risk_score": 85
+  }
+ },
+ {
+  "name": "이상 없음 — 정상을 정상으로 판정하는가",
+  "category": "적합성판정",
+  "stage": "compliance_explain",
+  "payload": {
+   "billing_row": {
+    "billing_no": "B-0102",
+    "joint_no": "FW12",
+    "ndt_method": "VT",
+    "result": "ACC"
+   },
+   "matched_report": {
+    "report_no": "77-005VMC",
+    "joint_no": "FW12",
+    "ndt_method": "VT",
+    "result": "ACC",
+    "inspection_date": "2026-03-11"
+   },
+   "drawing_requirements": {
+    "joint_no": "FW12",
+    "required_ndt": [
+     "VT"
+    ],
+    "source": "DRWG-9.1UGG-SD",
+    "page": 12
+   },
+   "scwep_rules_relevant": [],
+   "code_lookup_results": [],
+   "contract_clauses_relevant": [],
+   "compliance_findings": [],
+   "risk_score": 5
+  }
+ },
+ {
+  "name": "OCR 오독(O/0) 교차검증",
+  "category": "추출정확도",
+  "stage": "ocr_normalize",
+  "payload": {
+   "report_id": "tmp-0107",
+   "billing_round": {
+    "round": 12,
+    "date": "2026-03-31",
+    "discipline": "CP-P1"
+   },
+   "pages": [
+    "REPORT NO. 9.1UGG-VT-01O7\nMETHOD: VT\nDATE: 11/03/2026\nJOINT: FW12  WELDER: W-118  RESULT: ACC"
+   ],
+   "ocr_variants": [
+    "REPORT NO. 9.1UGG-VT-0107\nMETHOD: VT\nDATE: 11/03/2026",
+    "REPORT NO. 9.1UGG-VT-01O7\nMETH0D: VT"
+   ]
+  }
+ },
+ {
+  "name": "KE 명명 문서를 SCWEP 로 인식",
+  "category": "추출정확도",
+  "stage": "scwep_extract",
+  "payload": {
+   "document_no": "KE-SCWEP-001",
+   "revision": "B",
+   "pages": [
+    "KE-SCWEP-001 Rev.B  SITE WELDING AND EXAMINATION PLAN\nScope: CP-P1 piping, carbon steel\n5.2 VT shall be performed on 100 % of welds prior to RT."
+   ]
+  }
+ }
+]

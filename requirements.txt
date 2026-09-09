@@ -1,0 +1,45 @@
+# NDT Assistant - Python dependencies
+# All wheels must be pre-downloaded for offline (closed-network) installation.
+#
+# To build the offline wheel set on an external (online) machine:
+#   pip download -r requirements.txt -d installer/wheels --platform win_amd64 \
+#       --only-binary=:all: --python-version 3.11
+#
+# To install inside the closed network:
+#   pip install --no-index --find-links installer/wheels -r requirements.txt
+
+# --- Core ---
+pyyaml==6.0.2                 # config files
+python-dateutil==2.9.0.post0  # date parsing in segmenter/revision_manager
+
+# --- PDF / OCR ---
+pdfplumber==0.11.4            # text-layer extraction
+pypdfium2==4.30.0             # page rendering for OCR
+pytesseract==0.3.13           # Tesseract Python wrapper
+Pillow==10.4.0                # image pre-processing for OCR
+
+# --- Excel ---
+openpyxl==3.1.5               # read/write xlsx (incl. styling for risk highlight)
+
+
+# --- Matching ---
+rapidfuzz==3.10.1             # fast fuzzy matching for Joint No., welder IDs
+
+# --- Database ---
+SQLAlchemy==2.0.36            # ORM over SQLite
+
+# --- HTTP / LLM client ---
+httpx==0.27.2                 # HCX REST calls (sync + async)
+tenacity==9.0.0               # retry policy
+
+# --- Dashboard ---
+streamlit==1.39.0             # local web UI on http://localhost:8501
+pandas==2.2.3                 # tabular ops for dashboard
+altair==5.4.1                 # charts in dashboard
+
+# --- CLI ---
+typer==0.12.5                 # CLI framework (subcommands)
+rich==13.9.4                  # console pretty-printing, progress bars
+
+# --- Dev / Test (not strictly required at runtime) ---
+pytest==8.3.3

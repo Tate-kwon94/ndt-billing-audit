@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+{script_tag}
+<style>
+  * {{ box-sizing: border-box; }}
+  body {{ font-family: -apple-system, "맑은고딕", sans-serif; margin: 0; background: #f5f5f5; color: #222; }}
+  header {{ background: #1976d2; color: white; padding: 14px 22px; }}
+  header h1 {{ margin: 0; font-size: 19px; }}
+  header .sub {{ font-size: 12px; opacity: 0.9; margin-top: 4px; }}
+  .meta-bar {{ background: #fff3cd; padding: 10px 22px; font-size: 12.5px; border-bottom: 1px solid #ffc107; line-height: 1.5; }}
+  .help {{ padding: 10px 22px; font-size: 12px; color: #555; background: #e3f2fd; }}
+  .legend {{ display: inline-block; margin-right: 14px; }}
+  .legend .sw {{ display: inline-block; width: 12px; height: 12px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }}
+  .card {{ background: white; margin: 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow: hidden; }}
+  .card-header {{ background: #1976d2; color: white; padding: 10px 16px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; }}
+  .card-header .kks {{ font-family: Consolas, monospace; }}
+  .card-header .stats {{ font-size: 11px; opacity: 0.85; font-weight: normal; }}
+  .triple {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }}
+  @media (max-width: 1100px) {{ .triple {{ grid-template-columns: 1fr; }} }}
+  .panel {{ padding: 10px; border-right: 1px solid #eee; min-height: 380px; }}
+  .panel:last-child {{ border-right: none; }}
+  .panel h4 {{ margin: 0 0 6px 0; font-size: 12.5px; color: #1976d2; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .panel .panel-sub {{ font-size: 10.5px; color: #999; margin-bottom: 8px; }}
+  .pdf-page img {{ width: 100%; height: auto; max-height: 360px; object-fit: contain; background: white; border: 1px solid #ddd; }}
+  model-viewer {{ width: 100%; height: 360px; background: #fafafa; }}
+  .spec-table {{ font-size: 11px; max-height: 360px; overflow-y: auto; }}
+  .spec-table h5 {{ font-size: 11px; margin: 8px 0 4px 0; color: #333; padding-bottom: 2px; border-bottom: 1px solid #ddd; }}
+  .spec-table table {{ width: 100%; border-collapse: collapse; }}
+  .spec-table td, .spec-table th {{ padding: 3px 6px; text-align: left; border-bottom: 1px dotted #eee; }}
+  .spec-table th {{ background: #f5f5f5; font-weight: bold; font-size: 10px; color: #555; }}
+  .spec-table .num {{ text-align: right; font-family: Consolas, monospace; }}
+  .warning {{ background: #ffebee; color: #c62828; padding: 8px 16px; font-size: 11.5px; border-top: 1px solid #ffcdd2; }}
+  .empty {{ padding: 30px; text-align: center; color: #999; }}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔧 {title}</h1>
+  <div class="sub">시공 보조 + spec 검증 — 원본 ↔ 3D ↔ 추출 spec 한 화면 비교</div>
+</header>
+<div class="meta-bar">
+  <strong>v0.4 — 도면 PNG 오버레이 방식 (사용자 피드백: "3D 가 도면과 안 맞음" 반영)</strong><br>
+  3D 재구성 대신 <strong>도면 그 자체에 마킹</strong>. 도면 정보는 100% 보존, 추출 결과만 색으로 강조.
+  <br>
+  <span style="color:#2e7d32">✓</span> 가운데 ② 패널: 도면 위 spool line 에 직접 색칠 (초록=정확, 황색=낮은신뢰)
+  <br>
+  <span style="color:#2e7d32">✓</span> 오른쪽 ③ 패널: 추출된 spec (Pos·OD·길이·valve·fitting·slope) 표
+  <br>
+  <span style="color:#2e7d32">✓</span> 모두 결정론. vision/LLM 미사용. 환각 0.
+  <br>
+  <span style="color:#c62828">✗</span> scan 본 (0UGB, 0USJ) 은 Adobe OCR 필요
+  · 매칭 안 된 spool 은 ② 도면에 라벨 없음 → 좌측 ① 도면 직접 참조
+  <br>
+  3D 모델은 카드 하단 "참고" 토글에 보존 (검증 보조용).
+</div>
+<div class="help">
+  <strong>색 규약:</strong>
+  <span class="legend"><span class="sw" style="background:#b4b4b4"></span>파이프 (강관, 회색 원기둥)</span>
+  <span class="legend"><span class="sw" style="background:#dcc864"></span>곡관 (bend, 황색 호)</span>
+  <span class="legend"><span class="sw" style="background:#c83232"></span>밸브 (빨강 박스)</span>
+  <span class="legend"><span class="sw" style="background:#3296c8"></span>노즐 (청색 원뿔)</span>
+  <span class="legend"><span class="sw" style="background:#b4b4b4;border:1px solid #888"></span>지지대 (회색 원기둥)</span>
+</div>
+{cards}
+</body>
+</html>
