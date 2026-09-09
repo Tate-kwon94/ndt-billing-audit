@@ -9,7 +9,6 @@ Windows 의 ProcessPoolExecutor 는 spawn 이라 워커가 새 인터프리터�
 """
 from __future__ import annotations
 
-import os
 import shutil
 from pathlib import Path
 
@@ -30,9 +29,11 @@ def _blank_pdf(path: Path, n: int) -> Path:
 @pytest.mark.skipif(not shutil.which("tesseract"), reason="tesseract 없음")
 def test_parallel_workers_find_tesseract_without_path(tmp_path, monkeypatch):
     real = shutil.which("tesseract")
-    tess_dir = str(Path(real).parent)
-    stripped = os.pathsep.join(p for p in os.environ.get("PATH", "").split(os.pathsep) if p and p != tess_dir)
-    monkeypatch.setenv("PATH", stripped)                    # 워커가 PATH 로는 못 찾게
+    # PATH 를 빈 디렉터리 하나로 갈아끼운다. tesseract 가 있는 디렉터리만 빼는 방식은
+    # 우분투에서 /bin 이 /usr/bin 심볼릭 링크라 여전히 찾아져서, 재현 조건이 안 선다 (CI 2026-09-09).
+    empty = tmp_path / "empty_path"
+    empty.mkdir()
+    monkeypatch.setenv("PATH", str(empty))                  # 워커가 PATH 로는 못 찾게
     monkeypatch.setenv("NDT_TESSERACT_CMD", real)           # 부모(와 워커)는 이 경로로만 알 수 있다
     monkeypatch.setenv("NDT_OCR_WORKERS", "2")
     monkeypatch.setattr(pdf_extractor, "_tesseract_check_cache", None, raising=False)

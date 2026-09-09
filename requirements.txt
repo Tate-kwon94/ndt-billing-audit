@@ -40,6 +40,8 @@ altair==5.4.1                 # charts in dashboard
 
 # --- CLI ---
 typer==0.12.5                 # CLI framework (subcommands)
+click>=8.0,<8.2               # typer 0.12.5 는 click 8.2 의 Option._validate 를 모른다.
+# 안 박아두면 새로 설치할 때 click 8.3 이 딸려와 모든 명령이 뜨다 죽는다.
 rich==13.9.4                  # console pretty-printing, progress bars
 
 # --- Dev / Test (not strictly required at runtime) ---

@@ -1,0 +1,485 @@
+{
+ "read_by": "합성 데이터 — 형식만 실물과 같고 값은 지어낸 것",
+ "columns": [
+  "kks",
+  "dout_x_thickness_mm",
+  "document",
+  "vt_pct",
+  "pt_or_mt_pct",
+  "rt_pct",
+  "ut_pct",
+  "aux_vt_pct",
+  "aux_pt_or_mt_pct"
+ ],
+ "note": "같은 구조의 도면 4장은 호기 접두만 다르고 값이 같다 — 추출 결과가 서로 다르면 표를 읽지 못한 것이다.",
+ "drawings": {
+  "1": {
+   "source": "samples/drawings/NP.D.N000.1.0AAA&&BBB&&&.021.DC.0001.E_C02.pdf",
+   "page": 13,
+   "revision": "C02",
+   "rows": [
+    {
+     "kks": "10AAA02BR005",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA02BR006",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA11BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA12BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA13BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA14BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA15BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA16BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA17BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "10AAA18BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    }
+   ]
+  },
+  "2": {
+   "source": "samples/drawings/NP.D.N000.2.0AAA&&BBB&&&.021.DC.0001.E_C01.pdf",
+   "page": 13,
+   "revision": "C01",
+   "rows": [
+    {
+     "kks": "20AAA02BR005",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA02BR006",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA11BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA12BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA13BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA14BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA15BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA16BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA17BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "20AAA18BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    }
+   ]
+  },
+  "3": {
+   "source": "samples/drawings/NP.D.N000.3.0AAA&&BBB&&&.021.DC.0001.E_C01.pdf",
+   "page": 13,
+   "revision": "C01",
+   "rows": [
+    {
+     "kks": "30AAA02BR005",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA02BR006",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA11BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA12BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA13BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA14BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA15BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA16BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA17BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "30AAA18BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    }
+   ]
+  },
+  "4": {
+   "source": "samples/drawings/NP.D.N000.4.0AAA&&BBB&&&.021.DC.0001.E_C02.pdf",
+   "page": 13,
+   "revision": "C02",
+   "rows": [
+    {
+     "kks": "40AAA02BR005",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA02BR006",
+     "dout_x_thickness_mm": "88.9x7.1",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA11BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA12BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA13BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA14BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA15BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA16BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA17BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    },
+    {
+     "kks": "40AAA18BR005",
+     "dout_x_thickness_mm": "2000x18",
+     "document": "SPEC 100-80 / SPEC 200-84/VV",
+     "vt_pct": "100",
+     "pt_or_mt_pct": "-",
+     "rt_pct": "-",
+     "ut_pct": "100",
+     "aux_vt_pct": "100",
+     "aux_pt_or_mt_pct": "-"
+    }
+   ]
+  }
+ }
+}

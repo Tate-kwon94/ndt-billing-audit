@@ -1,0 +1,132 @@
+{
+ "source": "samples/drawings/NP.D.N000.1.0AAA&&BBB&&&.021.DC.0001.E_C02.pdf",
+ "page": 13,
+ "page_marker": "MJZ0001",
+ "title": "Methods and scope of welded joint inspection (MJZ0001)",
+ "read_by": "합성 데이터 — 형식만 실물과 같고 값은 지어낸 것",
+ "columns": [
+  "kks",
+  "dout_x_thickness_mm",
+  "document",
+  "vt_pct",
+  "pt_or_mt_pct",
+  "rt_pct",
+  "ut_pct",
+  "aux_vt_pct",
+  "aux_pt_or_mt_pct"
+ ],
+ "rows": [
+  {
+   "kks": "10AAA02BR005",
+   "dout_x_thickness_mm": "88.9x7.1",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA02BR006",
+   "dout_x_thickness_mm": "88.9x7.1",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA11BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA12BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA13BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA14BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA15BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA16BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA17BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  },
+  {
+   "kks": "10AAA18BR005",
+   "dout_x_thickness_mm": "2000x18",
+   "document": "SPEC 100-80 / SPEC 200-84/VV",
+   "vt_pct": "100",
+   "pt_or_mt_pct": "-",
+   "rt_pct": "-",
+   "ut_pct": "100",
+   "aux_vt_pct": "100",
+   "aux_pt_or_mt_pct": "-"
+  }
+ ],
+ "revision_read": "C02",
+ "note": "검사 범위표는 도면 본문이 아니라 별도 문서(MJZ0001)에 있다. 이 표가 요구사항의 1차 근거."
+}
