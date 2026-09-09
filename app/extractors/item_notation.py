@@ -50,7 +50,11 @@ def _expand_one(text: str) -> list[str]:
             a, b = int(ml.group("num")), int(mr.group("num"))
             # 오른쪽 접두가 없거나(Sp11.1÷6) 왼쪽과 같으면(1/1÷1/2) 끝 숫자 범위로 읽는다.
             if b > a and (not pre_r or pre_r == pre_l):
-                return [f"{pre_l}{i}" for i in range(a, b + 1)]
+                # 자릿수를 보존한다: SW0105÷0107 → SW0105·0106·0107 (SW105 가 되면 성적서와 안 맞는다).
+                # 왼쪽이 0 으로 시작할 때만 채운다 — Sp11.1÷6 을 Sp11.01 로 만들면 안 된다.
+                num = ml.group("num")
+                width = len(num) if num.startswith("0") else 0
+                return [f"{pre_l}{str(i).zfill(width) if width else i}" for i in range(a, b + 1)]
     return [t]
 
 

@@ -67,9 +67,17 @@ ndt_3d/           도면 좌표 추출·오버레이
 
 ```bash
 pip install -r requirements.txt
+pytest -q                                      # 612 passed
+
+python scripts/make_synthetic_samples.py       # 합성 샘플 생성 (스캔 PDF·청구 엑셀)
+NDT_HCX_MOCK=1 python scripts/demo.py          # 시연 — LLM 없이 결정론 경로만
 python -m app.main --help
-pytest -q          # 610 passed
 ```
+
+`make_synthetic_samples.py` 는 실물과 **형식만** 같은 문서를 만듭니다. 텍스트 레이어 없이
+이미지로 렌더하므로 OCR·표 인식 경로가 실제로 돕니다. `demo.py` 는 청구서 파싱부터 근거 사슬까지
+차례로 보여주는데, **OCR 이 성적서 표를 통째로 놓치는 장면까지 그대로 나옵니다.** 이 도구가
+멀티모달 전사와 근거 검증을 붙인 이유가 그 화면에 있습니다.
 
 LLM 호출은 OpenAI 호환 엔드포인트와 사내 전용 API 둘 다 지원하며, 주소와 토큰은 환경변수로 받습니다.
 `NDT_HCX_MOCK=1` 이면 호출 없이 픽스처로 동작합니다.

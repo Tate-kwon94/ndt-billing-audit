@@ -59,3 +59,15 @@ def test_normalize_weld_map_cell_splits_and_cleans():
     assert it.weld_maps("  NP.008.CCW.ABD.1.021.0001  ") == ["NP.008.CCW.ABD.1.021.0001"]
     assert it.weld_maps(None) == []
     assert it.weld_maps("NP.A, NP.A") == ["NP.A"]
+
+
+def test_range_keeps_zero_padding():
+    """'SW0105÷0107' 은 SW0105·SW0106·SW0107 이다. 0 을 잃으면 SW105 가 되어 성적서와 안 맞는다.
+    괄호형 범위는 이미 자릿수를 보존하는데 끝숫자 범위만 빠져 있었다."""
+    assert it.expand("SW0105÷0107") == ["SW0105", "SW0106", "SW0107"]
+    assert it.expand("FW008÷010") == ["FW008", "FW009", "FW010"]
+
+
+def test_range_without_padding_is_unchanged():
+    assert it.expand("Sp11.1÷6") == [f"Sp11.{i}" for i in range(1, 7)]
+    assert it.expand("1/1÷1/2") == ["1/1", "1/2"]
