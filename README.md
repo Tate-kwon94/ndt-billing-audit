@@ -1,5 +1,7 @@
 # NDT Billing Audit
 
+[![tests](https://github.com/Tate-kwon94/ndt-billing-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/Tate-kwon94/ndt-billing-audit/actions/workflows/ci.yml)
+
 원전 배관 비파괴검사(NDT) 기성 청구를 **문서 근거로 검증하는** 도구입니다.
 매월 수천 행의 청구서를 놓고 "이 검사는 도면이 요구한 것인가, 성적서가 뒷받침하는가"를 가립니다.
 
